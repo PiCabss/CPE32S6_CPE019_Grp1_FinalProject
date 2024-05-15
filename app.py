@@ -13,6 +13,8 @@ def load_model():
 def preprocess_image(image):
     img = image.resize((224, 224))  # Resize the image to match the input size of the trained model
     img_array = np.array(img)
+    if img_array.shape[-1] == 4:  # If the image has an alpha channel, remove it
+        img_array = img_array[..., :3]
     img_array = img_array / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
@@ -51,6 +53,9 @@ def main():
 
         # Preprocess the image
         img_array = preprocess_image(image)
+
+        # Verify the shape of the preprocessed image
+        st.write(f"Shape of preprocessed image: {img_array.shape}")
 
         # Make predictions
         predictions = make_prediction(model, img_array)
