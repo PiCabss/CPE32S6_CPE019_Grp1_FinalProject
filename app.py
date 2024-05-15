@@ -11,7 +11,7 @@ def load_model():
 
 # Function to preprocess the image
 def preprocess_image(image):
-    img = image.resize((224, 224))  # Resize the image to match the input size of the trained model
+    img = image.resize((1, 224, 224, 3))  # Resize the image to match the input size of the trained model
     img_array = np.array(img)
     if img_array.shape[-1] == 4:  # If the image has an alpha channel, remove it
         img_array = img_array[..., :3]
