@@ -3,7 +3,7 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 
-# Load the pre-trained model
+# Load the trained model
 @st.cache(allow_output_mutation=True)
 def load_model():
     model = tf.keras.models.load_model('xxy.h5')
@@ -11,10 +11,10 @@ def load_model():
 
 # Function to preprocess the image
 def preprocess_image(image):
-    img = image.resize((150, 150))  
+    img = image.resize((224, 224))  # Resize the image to match the input size of the trained model
     img_array = np.array(img)
-    img_array = img_array / 255.0  
-    img_array = np.expand_dims(img_array, axis=0)  
+    img_array = img_array / 255.0  # Normalize pixel values
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
 # Function to make predictions
@@ -24,9 +24,9 @@ def make_prediction(model, img_array):
 
 # Display the prediction result
 def display_prediction(predictions):
-    class_labels = ['Apple', 'Banana', 'Beetroot', 'Bell Pepper', 'Cabbage', 'Capsicum', 'Carrot', 'Cauliflower', 'Chilli Pepper', 'Corn', 
-                    'Cucumber', 'Eggplant', 'Garlic', 'Ginger', 'Grapes', 'Jalapeno', 'Kiwi', 'Lemon', 'Lettuce', 'Mango', 
-                    'Onion', 'Orange', 'Paprika', 'Pear', 'Peas', 'Pineapple', 'Pomegranate', 'Potato', 'Radish', 'Soy Beans', 
+    class_labels = ['Apple', 'Banana', 'Beetroot', 'Bell Pepper', 'Cabbage', 'Capsicum', 'Carrot', 'Cauliflower', 'Chilli Pepper', 'Corn',
+                    'Cucumber', 'Eggplant', 'Garlic', 'Ginger', 'Grapes', 'Jalapeno', 'Kiwi', 'Lemon', 'Lettuce', 'Mango',
+                    'Onion', 'Orange', 'Paprika', 'Pear', 'Peas', 'Pineapple', 'Pomegranate', 'Potato', 'Radish', 'Soy Beans',
                     'Spinach', 'Sweetcorn', 'Sweetpotato', 'Tomato', 'Turnip', 'Watermelon']
     predicted_class_index = np.argmax(predictions[0])
     predicted_class = class_labels[predicted_class_index]
